@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>use ES Module import vue3</title>
+  </head>
+  <body>
+    <!--    <div id="app">{{ message }}</div>-->
+    <div id="app">
+      <button @click="count++">{{ count }}</button>
+    </div>
+    <script type="module">
+      import { createApp, ref } from 'https://unpkg.com/vue@3/dist/vue.esm-browser.js'
+      //应用实例
+      const app =  createApp({
+        // data() {
+        //   return {
+        //     message: '使用模块化方式引入vue3!'
+        //   }
+        // }
+        setup() {
+          // “ref”是用来存储值的响应式数据源。
+          // 理论上我们在展示该字符串的时候不需要将其包装在 ref() 中，
+          // 但是在下一个示例中更改这个值的时候，我们就需要它了。
+          const message = ref('你好世界')
+          const count = ref(0)
+          return {
+            message,
+            count,
+          }
+        }
+      }).mount('#app')
+      console.log(app);
+    </script>
+  </body>
+</html>

@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>todolist</title>
+  </head>
+  <body>
+    <div id="app">
+      <div>
+        <p>{{ editTodoItem.text }}</p>
+        <div>{{robj1.name}}</div>
+        <div>{{robj1.age}}</div>
+      </div>
+      <div><button @click="changeText">change text</button></div>
+    </div>
+    <script type="module">
+      import { createApp, ref, reactive } from 'https://unpkg.com/vue@3/dist/vue.esm-browser.js'
+      //应用实例
+      const app = createApp({
+        setup() {
+          let todos = reactive([])
+          let newTodo = ref('')
+          let editTodoItem = reactive({
+            text: '做作业',
+            id: '1'
+          })
+          let raw = {}
+          let proxy = reactive(raw)
+
+          let obj = {
+            name: 'kid',
+            age: 11
+          }
+          let robj = ref(obj)
+          let robj1 = reactive(obj)
+          function changeText() {
+            editTodoItem.text = '玩游戏'
+            proxy = {
+              name: 'harrray'
+            }
+            // 代理对象和原始对象不是全等的
+            console.log(proxy === raw) // false
+            console.log(robj, '1')
+            console.log(robj1, '2')
+            robj1.name = 'cate'
+            robj1.age = 99
+          }
+          return {
+            todos,
+            newTodo,
+            editTodoItem,
+            changeText,
+            proxy,
+            robj,
+            robj1
+          }
+        }
+      }).mount('#app')
+    </script>
+  </body>
+</html>
