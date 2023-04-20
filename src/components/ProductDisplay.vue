@@ -69,18 +69,15 @@
   </div>
 </template>
 <!--<script setup> 是在单文件组件 (SFC) 中使用组合式 API 的编译时语法糖-->
-<script setup>
-import { reactive, ref, computed, defineProps } from 'vue'
-const props = defineProps({
-  //用户等级决定是否包邮
-  premium: {
-    type: Boolean,
-    required: true
-  },
-  radioName: {
-    type: String,
-    required: true
-  }
+<script setup lang="ts">
+import { reactive, ref, computed } from 'vue'
+//defineProps 是一个仅 <script setup> 中可用的编译宏命令，并不需要显式地导入
+interface Props {
+  premium: boolean //是否为付费用户
+  radioName: string
+}
+const props = withDefaults(defineProps<Props>(), {
+  premium: false
 })
 
 const product = ref('冬款长袜')
