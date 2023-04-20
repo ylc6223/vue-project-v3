@@ -19,52 +19,66 @@
           <p class="flex-1">运费: {{ shipping }}</p>
         </div>
 
-        <div v-for="variant in variants" :key="variant.id">
-          <div class="flex items-center">
-            <div class="flex-1 text-xl bold" :class="{ active: variant.checked }">
-              {{ variant.color }}
-            </div>
-            <div
-              class="color-circle"
-              :style="{ backgroundColor: variant.checked ? variant.color : '#FFF' }"
-            ></div>
-            <div class="flex-1">
-              <!--              <input-->
-              <!--                v-if="false"-->
-              <!--                type="radio"-->
-              <!--                name="color"-->
-              <!--                :value="variant.image"-->
-              <!--                :checked="variant.checked"-->
-              <!--                @change="updateVariant(variant, $event)"-->
-              <!--              />-->
-              <label>
-                <!--                <input type="radio" name="color" v-model="variant.checked" />-->
-                <input type="radio" name="color" />
-              </label>
-            </div>
-            {{ variant.checked }}
-          </div>
+        <div v-for="(variant, index) in variants" :key="variant.id">
+          <!--          <div class="flex">-->
+          <!--            <label :for="index">-->
+          <!--              <span-->
+          <!--                class="flex-1 text-xl bold"-->
+          <!--                :class="{ active: variant.image === selectedVariant.image }"-->
+          <!--              >-->
+          <!--                {{ variant.color }}-->
+          <!--              </span>-->
+
+          <!--              <span-->
+          <!--                v-if="false"-->
+          <!--                class="color-circle"-->
+          <!--                :style="{-->
+          <!--                  backgroundColor: variant.image === selectedVariant.image ? variant.color : '#FFF'-->
+          <!--                }"-->
+          <!--              ></span>-->
+          <!--            </label>-->
+          <!--            <input-->
+          <!--              :id="index"-->
+          <!--              type="radio"-->
+          <!--              name="color"-->
+          <!--              :value="variant"-->
+          <!--              v-model="selectedVariant"-->
+          <!--              :checked="index == 0"-->
+          <!--            />-->
+          <!--          </div>-->
+          <input
+            type="radio"
+            :name="radioName"
+            :value="variant"
+            v-model="selectedVariant"
+            :checked="index === 0"
+          />
         </div>
 
         <div class="flex items-center">
           <div>尺码:</div>
           <div v-for="(size, index) in sizes" :key="index">{{ size }}</div>
         </div>
-        <!--        <button class="button" :class="{ disabledButton: inStock <= 0 }" @click.prevent="add2Cart">-->
-        <button class="button" :class="{ disabledButton: inStock <= 0 }">Add to Cart</button>
-        <!--        <button class="button" @click="removeFromCart">Remove Item</button>-->
-        <button class="button">Remove Item</button>
+
+        <button class="button" :class="{ disabledButton: inStock <= 0 }" @click.prevent="add2Cart">
+          Add to Cart
+        </button>
+        <button class="button" @click="removeFromCart">Remove Item</button>
       </div>
     </div>
   </div>
 </template>
-
+<!--<script setup> 是在单文件组件 (SFC) 中使用组合式 API 的编译时语法糖-->
 <script setup>
 import { reactive, ref, computed, defineProps } from 'vue'
 const props = defineProps({
   //用户等级决定是否包邮
   premium: {
     type: Boolean,
+    required: true
+  },
+  radioName: {
+    type: String,
     required: true
   }
 })
@@ -77,15 +91,13 @@ const variants = reactive([
     id: 2234,
     color: 'green',
     image: 'src/assets/images/socks_green.jpg',
-    quantity: 50,
-    checked: true
+    quantity: 50
   },
   {
     id: 2235,
     color: 'blue',
     image: 'src/assets/images/socks_blue.jpg',
-    quantity: 0,
-    checked: false
+    quantity: 0
   }
 ])
 const url = ref(
@@ -93,7 +105,7 @@ const url = ref(
 )
 const details = reactive(['50% 棉花', '30% 羊毛', '20% 聚酯纤维'])
 const sizes = reactive(['S', 'M', 'L', 'XL'])
-const selectedVariant = ref(variants[0]) //默认选中第一个
+const selectedVariant = ref(variants[0])
 
 const title = computed(() => {
   return brand.value + ' ' + product.value
@@ -120,6 +132,7 @@ const inStock = computed(() => {
 })
 //添加到购物车
 function add2Cart() {
+  $emit()
   // if (cart.value.length >= inStock.value) {
   //   alert('购买数量不能超过剩余库存')
   //   return

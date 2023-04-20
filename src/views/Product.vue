@@ -1,13 +1,14 @@
 <template>
-  <div>
-    <div class="nav-bar"></div>
+  <div class="nav-bar"></div>
+  <div class="clearfix">
     <div class="cart">Cart({{ cart.length }})</div>
-    <ProductDisplay :premium="premium"></ProductDisplay>
-    <ProductDisplay :premium="false"></ProductDisplay>
-    <ProductDisplay :premium="false"></ProductDisplay>
   </div>
+  <ProductDisplay :radioName="nanoid()" :premium="premium"></ProductDisplay>
+  <ProductDisplay :radioName="nanoid()" :premium="false"></ProductDisplay>
+  <ProductDisplay :radioName="nanoid()" :premium="false"></ProductDisplay>
 </template>
 <script setup>
+import { nanoid } from 'https://cdn.jsdelivr.net/npm/nanoid/nanoid.js'
 import ProductDisplay from '@/components/ProductDisplay.vue'
 import { reactive, ref, computed } from 'vue'
 const cart = ref([])
@@ -23,7 +24,9 @@ const premium = ref(true)
   box-shadow: 1px 1px 5px rgba(0, 0, 0, 0.57);
 }
 .cart {
-  margin: 25px 100px;
+  //margin: 25px 100px;
+  margin-top: -10px;
+  margin-right: 25px;
   float: right;
   border: 1px solid #d8d8d8;
   padding: 10px 30px;

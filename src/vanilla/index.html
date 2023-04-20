@@ -7,14 +7,24 @@
     <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
   </head>
   <body>
-    <div id="app">{{ message }}</div>
+    <div id="app">
+      <p>{{ message }}</p>
+      <div><input v-model="sex" type="radio" name="gender" id="man" value="man"><label for="man">男</label></div>
+      <div><input v-model="sex" type="radio" name="gender" id="female" value="female"><label for="female">女</label></div>
+      <div>{{sex}}</div>
+
+      <input type="checkbox" id="checkbox" v-model="checked">
+      <label for="checkbox">{{ checked }}</label>
+    </div>
     <script>
       const { createApp } = Vue
 
       createApp({
         data() {
           return {
-            message: '今天天气真好!'
+            message: '今天天气真好!',
+            sex:"",
+            checked:true
           }
         }
       }).mount('#app')
